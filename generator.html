@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generador de Iframe</title>
+  <link href="style.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <h1>Generador de Iframe</h1>
+    <form id="iframe-generator">
+      <label for="fileId">ID de Google Drive:</label>
+      <input type="text" id="fileId" placeholder="Ingresa el ID del archivo">
+
+      <label for="videoUrl">URL Directa del Video:</label>
+      <input type="text" id="videoUrl" placeholder="Ingresa la URL directa del video">
+
+      <button type="submit">Generar Iframe</button>
+    </form>
+
+    <div id="iframe-code-container" style="margin-top: 20px;">
+      <h2>Código del Iframe:</h2>
+      <textarea id="iframe-code" rows="5" readonly></textarea>
+      <button id="copy-button">Copiar Código</button>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('iframe-generator').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const fileId = document.getElementById('fileId').value.trim();
+      const videoUrl = document.getElementById('videoUrl').value.trim();
+      let iframeSrc = '';
+
+      if (fileId) {
+        iframeSrc = `https://tusitio.com/index.html?fileId=${encodeURIComponent(fileId)}`;
+      } else if (videoUrl) {
+        iframeSrc = `https://tusitio.com/index.html?video=${encodeURIComponent(videoUrl)}`;
+      } else {
+        alert('Debes ingresar un ID de Google Drive o una URL directa del video.');
+        return;
+      }
+
+      const iframeCode = `<iframe src="${iframeSrc}" width="640" height="360" frameborder="0" allowfullscreen></iframe>`;
+      document.getElementById('iframe-code').value = iframeCode;
+      document.getElementById('iframe-code-container').style.display = 'block';
+    });
+
+    document.getElementById('copy-button').addEventListener('click', function () {
+      const textarea = document.getElementById('iframe-code');
+      textarea.select();
+      document.execCommand('copy');
+      alert('Código copiado al portapapeles.');
+    });
+  </script>
+</body>
+</html>
